@@ -1,21 +1,21 @@
-var reduce = require('../')
-var test = require('tap').test
-var path = require('path')
-var compare = require('compare-directory')
-var del = require('del')
+'use strict'
 
-var fixtures = path.resolve.bind(path, __dirname, 'fixtures')
+const reduce = require('../')
+const test = require('tap').test
+const path = require('path')
+const compare = require('compare-directory')
+const del = require('del')
+const fixtures = path.resolve.bind(path, __dirname, 'fixtures')
 
-test('single-bundle', function(t) {
-  var bundler = reduce(require(fixtures('reduce.config')))
+test('multiple bundles', function(t) {
   return del(fixtures('build'))
-    .then(bundler)
+    .then(() => reduce.bundle(fixtures('reduce.config')))
     .then(function () {
       compare(
         t,
         ['**/*.css', '**/*.js'],
         fixtures('build'),
-        fixtures('expected')
+        fixtures('expected/reduce')
       )
     })
 })

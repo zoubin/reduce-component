@@ -1,5 +1,7 @@
-var test = require('tap').test
-var diff = require('../lib/deps-diff')
+'use strict'
+
+const test = require('tap').test
+const diff = require('../lib/deps-diff')
 
 test('empty', function(t) {
   t.equal(diff([], []), null)

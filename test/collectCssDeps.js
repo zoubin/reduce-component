@@ -1,7 +1,9 @@
-var test = require('tap').test
-var collect = require('../lib/collectCssDeps')
-var collectCssDeps = collect.collectCssDeps
-var path = require('path')
+'use strict'
+
+const test = require('tap').test
+const collect = require('../lib/collectCssDeps')
+const collectCssDeps = collect.collectCssDeps
+const path = require('path')
 
 test('getStyle', function(tt) {
   tt.test('null', wrap())
@@ -19,7 +21,7 @@ test('getStyle', function(tt) {
   }))
 
   function wrap(getStyle) {
-    var expected = []
+    let expected = []
     if (getStyle) {
       expected = [{
         dependenciesFilter: '/component/a/index.css',
@@ -30,7 +32,7 @@ test('getStyle', function(tt) {
     return function (t) {
       t.plan(1)
 
-      var stream = collectCssDeps({ getStyle: getStyle })
+      let stream = collectCssDeps({ getStyle: getStyle })
 
       stream.once('css-deps', function (deps) {
         t.same(deps, expected)

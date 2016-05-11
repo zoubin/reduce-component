@@ -1,16 +1,17 @@
 {
   "name": "reduce-web-component",
-  "version": "0.2.0",
+  "version": "0.6.2",
   "description": "Pack js and css files in web components",
   "main": "index.js",
   "scripts": {
     "test": "npm run lint && tap test/*.js",
+    "cov": "tap --cov test/*.js",
     "lint": "eslint *.js 'lib/**/*.js' test/*.js bin/*.js",
-    "coveralls": "COVERALLS_REPO_TOKEN=REPO_TOKEN npm test"
+    "coveralls": "COVERALLS_REPO_TOKEN=ITtjHpiGBbrH3qzwlx04quZyQhyjMXAIL npm run cov"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zoubin/reduce-web-component.git"
+    "url": "git+https://github.com/reducejs/reduce-web-component.git"
   },
   "keywords": [
     "reduce",
@@ -22,24 +23,31 @@
   ],
   "author": "zoubin",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/zoubin/reduce-web-component/issues"
+  "engines": {
+    "node": ">=4.2.1"
   },
-  "homepage": "https://github.com/zoubin/reduce-web-component#readme",
+  "bugs": {
+    "url": "https://github.com/reducejs/reduce-web-component/issues"
+  },
+  "homepage": "https://github.com/reducejs/reduce-web-component#readme",
   "dependencies": {
-    "mixy": "^1.0.0",
-    "node-promisify": "^1.2.0",
-    "reduce-css": "^3.0.0",
-    "reduce-css-postcss": "^2.0.0",
-    "reduce-js": "^6.0.0",
-    "through2": "^2.0.0"
+    "concat-stream": "^1.5.1",
+    "multimatch": "^2.1.0",
+    "reduce-css": "^5.0.0",
+    "reduce-js": "^9.0.0",
+    "shasum": "^1.0.2",
+    "stream-combiner2": "^1.1.1",
+    "vinyl-buffer": "^1.0.0"
   },
   "devDependencies": {
+    "clean-remains": "^0.1.0",
     "compare-directory": "^1.0.1",
     "custom-resolve": "^1.0.1",
+    "dedupify": "^0.1.0",
     "del": "^2.2.0",
-    "eslint": "^1.10.1",
+    "eslint": "^2.1.0",
     "gulp": "^3.9.0",
+    "node-promisify": "^1.2.0",
     "tap": "^5.0.0"
   }
 }

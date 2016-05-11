@@ -1,20 +1,23 @@
-var path = require('path')
-var fixtures = path.resolve.bind(path, __dirname)
-var resolver = require('custom-resolve')
-var promisify = require('node-promisify')
-var styleResolve = promisify(resolver({
+'use strict'
+
+const path = require('path')
+const fixtures = path.resolve.bind(path, __dirname)
+const resolver = require('custom-resolve')
+const promisify = require('node-promisify')
+const styleResolve = promisify(resolver({
   main: 'style',
   extensions: '.css',
   moduleDirectory: ['web_modules', 'node_modules'],
 }))
+const Transform = require('stream').Transform
 
 module.exports = {
   getStyle: function (jsFile) {
-    if (jsFile.indexOf(fixtures('src', 'page') + '/') === 0) {
+    if (jsFile.indexOf(fixtures('src/reduce/page') + '/') === 0) {
       return path.dirname(jsFile) + '/index.css'
     }
 
-    var prefix = fixtures('src', 'web_modules') + '/'
+    let prefix = fixtures('src/reduce/web_modules') + '/'
     if (jsFile.indexOf(prefix) === 0) {
       return styleResolve(
         jsFile.slice(prefix.length).split('/')[0],
@@ -23,32 +26,33 @@ module.exports = {
     }
   },
 
-  basedir: fixtures('src'),
-  paths: [fixtures('src', 'web_modules')],
-
-  on: {
-    error: function (err) {
-      console.log(err.stack)
-    },
+  reduce: {
+    basedir: fixtures('src/reduce'),
+    paths: [fixtures('src/reduce/web_modules')],
   },
 
   js: {
-    entries: 'page/**/*.js',
+    entries: 'page/**/index.js',
     bundleOptions: {
-      groups: '**/page/**/index.js',
+      groups: 'page/**/index.js',
       common: 'common.js',
     },
     dest: fixtures('build'),
   },
 
   css: {
-    atRuleName: 'external',
+    entries: 'page/**/index.css',
     bundleOptions: {
-      groups: '**/page/**/index.css',
+      groups: 'page/**/index.css',
       common: 'common.css',
     },
-    resolve: styleResolve,
-    dest: fixtures('build'),
+    reduce: {
+      atRuleName: 'external',
+      resolve: styleResolve,
+    },
+    plugin: [
+      [require('reduce-css').dest, fixtures('build')],
+    ],
   },
 }
 
